@@ -1,0 +1,6 @@
+**/nuget-http-cache/
+**/bin/
+**/obj/
+.vs/
+*.user
+*.suo
