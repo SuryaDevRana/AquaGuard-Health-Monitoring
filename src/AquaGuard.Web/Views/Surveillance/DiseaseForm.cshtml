@@ -1,0 +1,15 @@
+@model AquaGuard.Web.ViewModels.DiseaseFormViewModel
+@{
+    var isEdit = Model.Id > 0;
+    ViewData["Title"] = isEdit ? "Edit disease" : "Add disease";
+}
+<div class="page-header"><div><a class="back-link" asp-action="Diseases"><i data-lucide="arrow-left"></i> Disease catalogue</a><h1>@(isEdit ? "Edit disease" : "Add a disease")</h1></div></div>
+<form asp-action="@(isEdit ? "EditDisease" : "CreateDisease")" asp-route-id="@Model.Id" method="post" class="panel-card workspace-form narrow-form">
+    <input asp-for="Id" type="hidden" />
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+    <div class="mb-3"><label asp-for="Name" class="form-label"></label><input asp-for="Name" class="form-control" /><span asp-validation-for="Name" class="field-validation-error"></span></div>
+    <div class="mb-3"><label asp-for="Description" class="form-label"></label><textarea asp-for="Description" class="form-control" rows="3"></textarea></div>
+    <label class="form-check mb-4"><input asp-for="IsWaterBorne" class="form-check-input" /><span class="form-check-label">Water-borne condition</span></label>
+    <div class="form-actions"><a class="btn btn-outline" asp-action="Diseases">Cancel</a><button type="submit" class="btn btn-primary">Save disease</button></div>
+</form>
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

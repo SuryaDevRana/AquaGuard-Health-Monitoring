@@ -1,0 +1,16 @@
+@model AquaGuard.Web.ViewModels.FacilityFormViewModel
+@{
+    var isEdit = Model.Id > 0;
+    ViewData["Title"] = isEdit ? "Edit facility" : "Add facility";
+}
+<div class="page-header"><div><a class="back-link" asp-action="Facilities"><i data-lucide="arrow-left"></i> Health facilities</a><h1>@(isEdit ? "Edit facility" : "Add a facility")</h1></div></div>
+<form asp-action="@(isEdit ? "EditFacility" : "CreateFacility")" asp-route-id="@Model.Id" method="post" class="panel-card workspace-form narrow-form">
+    <input asp-for="Id" type="hidden" /><div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+    <div class="mb-3"><label asp-for="Name" class="form-label"></label><input asp-for="Name" class="form-control" /><span asp-validation-for="Name" class="field-validation-error"></span></div>
+    <div class="mb-3"><label asp-for="VillageId" class="form-label"></label><select asp-for="VillageId" asp-items="ViewBag.Villages" class="form-select"><option value="">Choose village</option></select><span asp-validation-for="VillageId" class="field-validation-error"></span></div>
+    <div class="mb-3"><label asp-for="FacilityType" class="form-label"></label><input asp-for="FacilityType" class="form-control" /><span asp-validation-for="FacilityType" class="field-validation-error"></span></div>
+    <div class="mb-3"><label asp-for="ContactNumber" class="form-label"></label><input asp-for="ContactNumber" class="form-control" /></div>
+    <label class="form-check mb-4"><input asp-for="IsOperational" class="form-check-input" /><span class="form-check-label">Facility is operational</span></label>
+    <div class="form-actions"><a class="btn btn-outline" asp-action="Facilities">Cancel</a><button type="submit" class="btn btn-primary">Save facility</button></div>
+</form>
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

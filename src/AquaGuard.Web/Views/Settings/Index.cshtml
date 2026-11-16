@@ -1,0 +1,22 @@
+@model AquaGuard.Web.ViewModels.SettingsPageViewModel
+@{
+    ViewData["Title"] = "Settings";
+}
+<div class="page-header"><div><span class="eyebrow text-teal">Workspace preferences</span><h1>Settings</h1><p>Review your account and the current application configuration.</p></div></div>
+<div class="demo-banner"><i data-lucide="info"></i><span>These values come from local configuration and are read-only in the demo. Change them in appsettings or environment variables.</span></div>
+<section class="two-col">
+    <article class="panel-card"><div class="panel-head"><h2>Your account</h2><span class="mini-icon teal"><i data-lucide="user-round"></i></span></div>
+        <dl class="detail-grid"><div><dt>Signed in as</dt><dd>@Model.FullName</dd></div><div><dt>Email</dt><dd>@Model.Email</dd></div><div class="detail-span"><dt>Password</dt><dd><a asp-controller="Account" asp-action="ForgotPassword">Request password reset</a></dd></div></dl>
+    </article>
+    <article class="panel-card"><div class="panel-head"><h2>Early-warning rules</h2><span class="mini-icon amber"><i data-lucide="sliders-horizontal"></i></span></div>
+        <dl class="detail-grid">
+            <div><dt>Lookback window</dt><dd>@Model.WarningSettings.LookbackDays days</dd></div>
+            <div><dt>Moderate threshold</dt><dd>@Model.WarningSettings.ModerateCaseThreshold cases</dd></div>
+            <div><dt>High threshold</dt><dd>@Model.WarningSettings.HighCaseThreshold cases</dd></div>
+            <div><dt>Critical threshold</dt><dd>@Model.WarningSettings.CriticalCaseThreshold cases</dd></div>
+            <div><dt>pH range</dt><dd>@Model.WarningSettings.MinimumPh – @Model.WarningSettings.MaximumPh</dd></div>
+            <div><dt>Maximum turbidity</dt><dd>@Model.WarningSettings.MaximumTurbidityNtu NTU</dd></div>
+            <div class="detail-span"><dt>Email delivery</dt><dd><span class="badge @(Model.EmailConfigured ? "badge-safe" : "badge-pending")">@(Model.EmailConfigured ? "Configured" : "Not configured")</span></dd></div>
+        </dl>
+    </article>
+</section>

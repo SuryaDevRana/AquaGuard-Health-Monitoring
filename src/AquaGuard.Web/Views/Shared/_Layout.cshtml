@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] · AquaGuard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/app.css" asp-append-version="true" />
+</head>
+<body>
+@if (User.Identity?.IsAuthenticated == true)
+{
+    var displayName = User.Identity.Name ?? "AquaGuard user";
+    var userInitial = displayName.Length > 0 ? displayName[0].ToString().ToUpperInvariant() : "?";
+    <div class="app-shell" id="appShell">
+        <aside class="app-sidebar" id="appSidebar">
+            <div class="sidebar-brand"><a class="brand" asp-controller="Dashboard" asp-action="Index"><span class="brand-mark"><i data-lucide="waves"></i></span>AquaGuard</a><button class="icon-btn sidebar-close d-lg-none" data-sidebar-close><i data-lucide="x"></i></button></div>
+            <nav class="sidebar-nav" aria-label="Primary navigation">
+                <span class="nav-label">Workspace</span>
+                <a class="side-link" asp-controller="Dashboard" asp-action="Index"><i data-lucide="layout-dashboard"></i><span>Overview</span></a>
+                <a class="side-link" asp-controller="Patients" asp-action="Index"><i data-lucide="users-round"></i><span>Patient Records</span></a>
+                <a class="side-link" asp-controller="Surveillance" asp-action="Index"><i data-lucide="activity"></i><span>Disease Surveillance</span></a>
+                <a class="side-link" asp-controller="WaterQuality" asp-action="Index"><i data-lucide="droplets"></i><span>Water Quality</span></a>
+                <span class="nav-label mt-3">Community</span>
+                <a class="side-link" asp-controller="Villages" asp-action="Index"><i data-lucide="map-pin"></i><span>Villages</span></a>
+                <a class="side-link" asp-controller="HealthWorkers" asp-action="Index"><i data-lucide="stethoscope"></i><span>Health Workers</span></a>
+                <a class="side-link" asp-controller="EarlyWarnings" asp-action="Index"><i data-lucide="siren"></i><span>Early Warnings</span></a>
+                <a class="side-link" asp-controller="Notifications" asp-action="Index"><i data-lucide="inbox"></i><span>Inbox</span></a>
+                <span class="nav-label mt-3">Insights</span>
+                <a class="side-link" asp-controller="Reports" asp-action="Index"><i data-lucide="file-bar-chart-2"></i><span>Reports</span></a>
+                <a class="side-link" asp-controller="Settings" asp-action="Index"><i data-lucide="settings-2"></i><span>Settings</span></a>
+            </nav>
+            <div class="sidebar-footer"><div class="demo-note"><i data-lucide="flask-conical"></i><span><strong>Demonstration mode</strong>Sample data only</span></div></div>
+        </aside>
+        <div class="app-content">
+            <header class="app-topbar">
+                <button class="icon-btn d-lg-none" data-sidebar-open aria-label="Open navigation"><i data-lucide="menu"></i></button>
+                <form class="global-search" asp-controller="Search" asp-action="Index" method="get" role="search">
+                    <i data-lucide="search"></i><input type="search" name="q" value="@Context.Request.Query["q"]" aria-label="Search records" placeholder="Search patients, villages, sources…" />
+                </form>
+                <div class="topbar-actions">
+                    <a class="icon-btn" asp-controller="Notifications" asp-action="Index" aria-label="Inbox"><i data-lucide="bell"></i></a>
+                    <a class="icon-btn d-none d-sm-inline-flex" asp-controller="Settings" asp-action="Index" aria-label="Settings"><i data-lucide="settings-2"></i></a>
+                    <div class="profile-menu"><span class="avatar">@userInitial</span><span class="profile-name d-none d-md-block">@displayName</span></div>
+                    <form asp-controller="Account" asp-action="Logout" method="post"><button class="icon-btn" aria-label="Sign out"><i data-lucide="log-out"></i></button></form>
+                </div>
+            </header>
+            <main class="page-content">
+                @if (TempData["SuccessMessage"] is string successMessage) { <div class="alert alert-success app-toast" role="status" data-dismiss-after="6500"><i data-lucide="circle-check"></i>@successMessage<button type="button" class="toast-close" data-toast-close aria-label="Dismiss notification"><i data-lucide="x"></i></button></div> }
+                @if (TempData["ErrorMessage"] is string errorMessage) { <div class="alert alert-danger app-toast" role="alert"><i data-lucide="circle-alert"></i>@errorMessage<button type="button" class="toast-close" data-toast-close aria-label="Dismiss notification"><i data-lucide="x"></i></button></div> }
+                @RenderBody()
+            </main>
+        </div>
+    </div>
+}
+else
+{
+    <header class="marketing-nav"><div class="marketing-nav-inner"><a class="brand" asp-controller="Home" asp-action="Index"><span class="brand-mark"><i data-lucide="waves"></i></span>AquaGuard</a><nav class="marketing-links"><a href="#platform">Platform</a><a href="#how-it-works">How it works</a><a href="#about">About</a></nav><div class="d-flex gap-2"><a class="btn btn-quiet" asp-controller="Account" asp-action="Login">Sign in</a><a class="btn btn-primary" asp-controller="Account" asp-action="Register">Get started <i data-lucide="arrow-up-right"></i></a></div></div></header>
+    <main>@RenderBody()</main>
+    <footer class="marketing-footer"><div><a class="brand" asp-controller="Home" asp-action="Index"><span class="brand-mark"><i data-lucide="waves"></i></span>AquaGuard</a><p>Thoughtful tools for safer water and healthier communities.</p></div><div><strong>Platform</strong><a href="#platform">Monitoring</a><a href="#how-it-works">How it works</a></div><div><strong>Contact</strong><a href="mailto:hello@aquaguard.example">hello@aquaguard.example</a><span>Built for Northeast India</span></div><small>© @DateTime.UtcNow.Year AquaGuard. Demonstration platform.</small></footer>
+}
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="~/js/app.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

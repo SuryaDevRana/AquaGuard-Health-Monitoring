@@ -1,0 +1,35 @@
+@model AquaGuard.Domain.Entities.EarlyWarning
+@{
+    ViewData["Title"] = "Warning details";
+    var isOpen = Model.Status is AquaGuard.Domain.Enums.WarningStatus.Open or AquaGuard.Domain.Enums.WarningStatus.Acknowledged;
+}
+<div class="page-header"><div><a class="back-link" asp-action="Index"><i data-lucide="arrow-left"></i> Early warnings</a><h1>@Model.AlertCode</h1><p>@Model.Village.Name · @Model.AlertDate.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</p></div><span class="badge badge-@Model.RiskLevel.ToString().ToLowerInvariant() risk-pill">@Model.RiskLevel risk</span></div>
+<div class="demo-banner"><i data-lucide="info"></i><span>This is a rule-generated review signal. It does not establish a diagnosis or confirm an outbreak.</span></div>
+<section class="two-col">
+    <article class="panel-card"><div class="panel-head"><h2>Signal details</h2><span class="badge badge-@Model.Status.ToString().ToLowerInvariant()">@Model.Status</span></div>
+        <dl class="detail-grid">
+            <div><dt>Village</dt><dd>@Model.Village.Name</dd></div><div><dt>Related disease</dt><dd>@(Model.RelatedDisease?.Name ?? "Water quality")</dd></div>
+            <div><dt>Reported cases</dt><dd>@Model.ReportedCaseCount</dd></div><div><dt>Signal date</dt><dd>@Model.AlertDate.ToLocalTime().ToString("dd MMM yyyy HH:mm")</dd></div>
+            <div class="detail-span"><dt>Trigger reason</dt><dd>@Model.TriggerReason</dd></div>
+            <div class="detail-span"><dt>Recommended follow-up</dt><dd>@Model.RecommendedAction</dd></div>
+            <div class="detail-span"><dt>Evidence note</dt><dd>@(Model.EvidenceSummary ?? "No additional evidence note.")</dd></div>
+        </dl>
+    </article>
+    <aside class="panel-card">
+        <div class="panel-head"><h2>Review actions</h2></div>
+        @if (isOpen)
+        {
+            <p class="text-secondary small">Record a human review status after validating the underlying reports.</p>
+            <div class="review-actions">
+                @if (Model.Status == AquaGuard.Domain.Enums.WarningStatus.Open) { <form asp-action="SetStatus" asp-route-id="@Model.Id" method="post"><input type="hidden" name="status" value="Acknowledged" /><button class="btn btn-outline w-100" type="submit"><i data-lucide="eye"></i> Acknowledge for review</button></form> }
+                <form asp-action="SetStatus" asp-route-id="@Model.Id" method="post"><input type="hidden" name="status" value="Resolved" /><button class="btn btn-primary w-100" type="submit"><i data-lucide="check"></i> Mark resolved</button></form>
+                <form asp-action="SetStatus" asp-route-id="@Model.Id" method="post" onsubmit="return confirm('Dismiss this warning?')"><input type="hidden" name="status" value="Dismissed" /><button class="btn btn-quiet w-100 text-danger" type="submit">Dismiss signal</button></form>
+            </div>
+        }
+        else
+        {
+            <div class="empty-state"><i data-lucide="circle-check"></i><p>This warning is closed.</p></div>
+            @if (Model.ResolvedAt.HasValue) { <p class="small text-secondary">Closed @Model.ResolvedAt.Value.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</p> }
+        }
+    </aside>
+</section>

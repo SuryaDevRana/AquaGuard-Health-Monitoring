@@ -1,0 +1,22 @@
+@model AquaGuard.Web.ViewModels.WaterQualityIndexViewModel
+@{
+    ViewData["Title"] = "Water quality";
+}
+<div class="page-header">
+    <div><span class="eyebrow text-teal">Water safety</span><h1>Water quality</h1><p>Review source tests, measurements, and follow-up status.</p></div>
+    <div class="d-flex gap-2"><a class="btn btn-outline" asp-action="Sources"><i data-lucide="map-pin"></i> Water sources</a><a class="btn btn-primary" asp-action="CreateReport"><i data-lucide="plus"></i> Record test</a></div>
+</div>
+<div class="demo-banner"><i data-lucide="info"></i><span>Measurements are demonstrations. Mark estimates clearly and arrange confirmatory tests for concerning results.</span></div>
+<section class="stat-grid">
+    <article class="stat-card"><span class="label">Safe results</span><div class="value">@Model.SafeCount</div><span class="trend up">Recorded as safe</span></article>
+    <article class="stat-card"><span class="label">Needs attention</span><div class="value">@Model.AttentionCount</div><span class="trend alert">Review findings</span></article>
+    <article class="stat-card"><span class="label">Pending</span><div class="value">@Model.PendingCount</div><span class="trend">Awaiting assessment</span></article>
+    <article class="stat-card"><span class="label">Unsafe</span><div class="value">@Model.UnsafeCount</div><span class="trend alert">Requires follow-up</span></article>
+</section>
+<section class="panel-card">
+    <div class="panel-head"><div><h2>Recent test reports</h2><p class="panel-subtitle">Latest 100 measurements</p></div><a asp-action="CreateReport">Record a test <i data-lucide="arrow-right"></i></a></div>
+    <div class="table-responsive"><table class="data-table"><thead><tr><th>Source / village</th><th>pH</th><th>Turbidity</th><th>Microbiology</th><th>Status</th><th>Test date</th><th></th></tr></thead><tbody>
+    @if (Model.Reports.Count == 0) { <tr><td colspan="7"><div class="empty-state"><i data-lucide="droplets"></i><p>No water tests have been recorded.</p><a asp-action="CreateReport">Record the first test</a></div></td></tr> }
+    else { @foreach (var report in Model.Reports) { var statusClass = report.Status.ToString().ToLowerInvariant(); <tr><td><strong>@report.WaterSource.Name</strong><small class="d-block text-secondary">@report.WaterSource.Village.Name</small></td><td>@(report.PhLevel?.ToString("0.00") ?? "—")</td><td>@(report.TurbidityNtu?.ToString("0.00") ?? "—") NTU</td><td><small>E. coli: @report.EColiResult</small><small class="d-block">Coliform: @report.TotalColiformResult</small></td><td><span class="badge badge-@statusClass">@report.Status@(report.IsEstimated ? " · Est." : "")</span></td><td>@report.TestingDate.ToString("dd MMM yyyy")</td><td class="text-end"><a class="btn btn-outline btn-sm" asp-action="EditReport" asp-route-id="@report.Id">Review</a><form asp-action="DeleteReport" asp-route-id="@report.Id" method="post" class="d-inline" onsubmit="return confirm('Delete this test report?')"><button class="btn btn-quiet btn-sm text-danger" type="submit">Delete</button></form></td></tr> } }
+    </tbody></table></div>
+</section>

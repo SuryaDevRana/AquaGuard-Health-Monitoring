@@ -1,0 +1,10 @@
+@model AquaGuard.Web.ViewModels.SearchResultsViewModel
+@{
+    ViewData["Title"] = "Search";
+}
+<div class="page-header"><div><span class="eyebrow text-teal">Workspace search</span><h1>Search results</h1><p>Showing matches for “@Model.Query”.</p></div></div>
+<section class="panel-card">
+    @if (Model.Query.Length < 2) { <div class="empty-state"><i data-lucide="search"></i><p>Enter at least two characters to search records.</p></div> }
+    else if (Model.Results.Count == 0) { <div class="empty-state"><i data-lucide="search-x"></i><p>No records found for “@Model.Query”. Try another term.</p></div> }
+    else { <div class="search-results">@foreach (var result in Model.Results) { <a class="search-result" href="@result.Url"><span class="mini-icon teal"><i data-lucide="@(result.Kind switch { "Patient" => "user-round", "Village" => "map-pin", "Water source" => "droplets", _ => "activity" })"></i></span><span><small>@result.Kind</small><strong>@result.Name</strong><span>@result.Detail</span></span><i data-lucide="arrow-up-right"></i></a> }</div> }
+</section>

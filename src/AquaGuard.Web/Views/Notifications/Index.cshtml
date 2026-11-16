@@ -1,0 +1,18 @@
+@model AquaGuard.Web.ViewModels.NotificationsIndexViewModel
+@{
+    ViewData["Title"] = "Inbox";
+}
+<div class="page-header"><div><span class="eyebrow text-teal">Workspace updates</span><h1>Inbox</h1><p>@Model.UnreadCount unread message(s).</p></div>
+    @if (Model.UnreadCount > 0) { <form asp-action="MarkAllRead" method="post"><button class="btn btn-outline" type="submit"><i data-lucide="check-check"></i> Mark all read</button></form> }
+</div>
+<section class="panel-card">
+    @if (Model.Notifications.Count == 0) { <div class="empty-state"><i data-lucide="inbox"></i><p>You’re all caught up. New community warnings will appear here.</p></div> }
+    else { <div class="notification-list">@foreach (var item in Model.Notifications) {
+        <article class="notification-item @(item.IsRead ? "" : "unread")">
+            <span class="notification-type-icon"><i data-lucide="@(item.Type switch { AquaGuard.Domain.Enums.NotificationType.EarlyWarning => "siren", AquaGuard.Domain.Enums.NotificationType.WaterQuality => "droplets", AquaGuard.Domain.Enums.NotificationType.DiseaseCase => "activity", _ => "info" })"></i></span>
+            <div class="notification-copy"><div class="d-flex align-items-center gap-2"><strong>@item.Title</strong>@if (!item.IsRead) { <span class="unread-dot" aria-label="Unread"></span> }</div><p>@item.Message</p><small>@item.CreatedAt.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</small></div>
+            @if (!item.IsRead) { <form asp-action="MarkRead" asp-route-id="@item.Id" method="post"><button class="btn btn-outline btn-sm" type="submit">Mark read</button></form> }
+            @if (!string.IsNullOrWhiteSpace(item.Link)) { <a class="icon-btn" href="@item.Link" aria-label="Open notification"><i data-lucide="arrow-up-right"></i></a> }
+        </article>
+    }</div> }
+</section>

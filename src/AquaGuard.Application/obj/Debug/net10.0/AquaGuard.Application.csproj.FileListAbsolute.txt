@@ -1,0 +1,15 @@
+/Users/suryadevrana/Documents/Codex/2026-11-16/project-name-aquaguard-smart-community-health/src/AquaGuard.Application/bin/Debug/net10.0/AquaGuard.Application.deps.json
+/Users/suryadevrana/Documents/Codex/2026-11-16/project-name-aquaguard-smart-community-health/src/AquaGuard.Application/bin/Debug/net10.0/AquaGuard.Application.dll
+/Users/suryadevrana/Documents/Codex/2026-11-16/project-name-aquaguard-smart-community-health/src/AquaGuard.Application/bin/Debug/net10.0/AquaGuard.Application.pdb
+/Users/suryadevrana/Documents/Codex/2026-11-16/project-name-aquaguard-smart-community-health/src/AquaGuard.Application/bin/Debug/net10.0/AquaGuard.Domain.dll
+/Users/suryadevrana/Documents/Codex/2026-11-16/project-name-aquaguard-smart-community-health/src/AquaGuard.Application/bin/Debug/net10.0/AquaGuard.Domain.pdb
+/Users/suryadevrana/Documents/Codex/2026-11-16/project-name-aquaguard-smart-community-health/src/AquaGuard.Application/obj/Debug/net10.0/AquaGuard.Application.csproj.AssemblyReference.cache
+/Users/suryadevrana/Documents/Codex/2026-11-16/project-name-aquaguard-smart-community-health/src/AquaGuard.Application/obj/Debug/net10.0/AquaGuard.Application.GeneratedMSBuildEditorConfig.editorconfig
+/Users/suryadevrana/Documents/Codex/2026-11-16/project-name-aquaguard-smart-community-health/src/AquaGuard.Application/obj/Debug/net10.0/AquaGuard.Application.AssemblyInfoInputs.cache
+/Users/suryadevrana/Documents/Codex/2026-11-16/project-name-aquaguard-smart-community-health/src/AquaGuard.Application/obj/Debug/net10.0/AquaGuard.Application.AssemblyInfo.cs
+/Users/suryadevrana/Documents/Codex/2026-11-16/project-name-aquaguard-smart-community-health/src/AquaGuard.Application/obj/Debug/net10.0/AquaGuard.Application.csproj.CoreCompileInputs.cache
+/Users/suryadevrana/Documents/Codex/2026-11-16/project-name-aquaguard-smart-community-health/src/AquaGuard.Application/obj/Debug/net10.0/AquaGuar.6993F995.Up2Date
+/Users/suryadevrana/Documents/Codex/2026-11-16/project-name-aquaguard-smart-community-health/src/AquaGuard.Application/obj/Debug/net10.0/AquaGuard.Application.dll
+/Users/suryadevrana/Documents/Codex/2026-11-16/project-name-aquaguard-smart-community-health/src/AquaGuard.Application/obj/Debug/net10.0/refint/AquaGuard.Application.dll
+/Users/suryadevrana/Documents/Codex/2026-11-16/project-name-aquaguard-smart-community-health/src/AquaGuard.Application/obj/Debug/net10.0/AquaGuard.Application.pdb
+/Users/suryadevrana/Documents/Codex/2026-11-16/project-name-aquaguard-smart-community-health/src/AquaGuard.Application/obj/Debug/net10.0/ref/AquaGuard.Application.dll

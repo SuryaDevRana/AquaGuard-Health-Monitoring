@@ -1,0 +1,21 @@
+@model AquaGuard.Web.ViewModels.SurveillanceIndexViewModel
+@{
+    ViewData["Title"] = "Disease surveillance";
+}
+<div class="page-header">
+    <div><span class="eyebrow text-teal">Health signals</span><h1>Disease surveillance</h1><p>Review community case reports and maintain the disease catalogue.</p></div>
+    <div class="d-flex gap-2"><a class="btn btn-outline" asp-action="Diseases"><i data-lucide="book-open"></i> Disease catalogue</a><a class="btn btn-primary" asp-action="CreateReport"><i data-lucide="plus"></i> Record case</a></div>
+</div>
+<div class="demo-banner"><i data-lucide="info"></i><span>Signals summarize submitted records. They are not diagnoses or confirmation of an outbreak.</span></div>
+<section class="stat-grid">
+    <article class="stat-card"><span class="label">All case reports</span><div class="value">@Model.TotalCases</div><span class="trend">Across all villages</span></article>
+    <article class="stat-card"><span class="label">Last 7 days</span><div class="value">@Model.RecentCases</div><span class="trend alert">Review context before action</span></article>
+    <article class="stat-card"><span class="label">Tracked diseases</span><div class="value">@Model.DiseaseCount</div><span class="trend">In the current catalogue</span></article>
+</section>
+<section class="panel-card">
+    <div class="panel-head"><div><h2>Recent case reports</h2><p class="panel-subtitle">Latest 100 records</p></div><a asp-action="CreateReport">Record a case <i data-lucide="arrow-right"></i></a></div>
+    <div class="table-responsive"><table class="data-table"><thead><tr><th>Patient</th><th>Disease</th><th>Village</th><th>Symptoms</th><th>Severity</th><th>Reported</th><th></th></tr></thead><tbody>
+    @if (Model.Reports.Count == 0) { <tr><td colspan="7"><div class="empty-state"><i data-lucide="activity"></i><p>No patient reports yet.</p><a asp-action="CreateReport">Record the first case</a></div></td></tr> }
+    else { @foreach (var report in Model.Reports) { <tr><td><a class="table-primary-link" asp-controller="Patients" asp-action="Details" asp-route-id="@report.PatientId">@report.Patient.FullName</a><small class="d-block text-secondary">@report.Patient.PatientCode</small></td><td>@report.Disease.Name</td><td>@report.Village.Name</td><td class="truncate-cell">@report.Symptoms</td><td><span class="badge badge-pending">@(report.Severity ?? "Recorded")</span></td><td>@report.ReportedOn.ToLocalTime().ToString("dd MMM yyyy")</td><td class="text-end"><a class="btn btn-outline btn-sm" asp-action="EditReport" asp-route-id="@report.Id">Edit</a><form asp-action="DeleteReport" asp-route-id="@report.Id" method="post" class="d-inline" onsubmit="return confirm('Delete this report?')"><button class="btn btn-quiet btn-sm text-danger" type="submit">Delete</button></form></td></tr> } }
+    </tbody></table></div>
+</section>

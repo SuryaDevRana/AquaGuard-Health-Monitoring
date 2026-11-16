@@ -1,0 +1,26 @@
+@model AquaGuard.Web.ViewModels.ReportsIndexViewModel
+@{
+    ViewData["Title"] = "Reports";
+}
+<div class="page-header"><div><span class="eyebrow text-teal">Insights & exports</span><h1>Reports</h1><p>Review operational totals and download data extracts for analysis.</p></div></div>
+<div class="demo-banner"><i data-lucide="flask-conical"></i><span>Exports contain demonstration data. Review handling requirements before using them outside this local demo.</span></div>
+<section class="stat-grid">
+    <article class="stat-card"><span class="label">Patient profiles</span><div class="value">@Model.PatientCount</div><a class="trend" asp-controller="Patients" asp-action="Index">Open records →</a></article>
+    <article class="stat-card"><span class="label">Case reports</span><div class="value">@Model.CaseCount</div><a class="trend" asp-controller="Surveillance" asp-action="Index">Open surveillance →</a></article>
+    <article class="stat-card"><span class="label">Villages</span><div class="value">@Model.VillageCount</div><a class="trend" asp-controller="Villages" asp-action="Index">Open communities →</a></article>
+    <article class="stat-card"><span class="label">Water tests</span><div class="value">@Model.WaterTestCount</div><a class="trend" asp-controller="WaterQuality" asp-action="Index">Open water quality →</a></article>
+</section>
+<section class="two-col">
+    <article class="panel-card"><div class="panel-head"><div><h2>Download reports</h2><p class="panel-subtitle">CSV files open in spreadsheet tools</p></div><i data-lucide="download" class="text-teal"></i></div>
+        <div class="export-list">
+            <a class="export-row" asp-action="Export" asp-route-kind="cases"><span class="mini-icon teal"><i data-lucide="activity"></i></span><span><strong>Case reports</strong><small>Patient code, village, disease and report details</small></span><i data-lucide="download"></i></a>
+            <a class="export-row" asp-action="Export" asp-route-kind="water"><span class="mini-icon blue"><i data-lucide="droplets"></i></span><span><strong>Water-quality tests</strong><small>Measurements, lab results and status</small></span><i data-lucide="download"></i></a>
+            <a class="export-row" asp-action="Export" asp-route-kind="warnings"><span class="mini-icon amber"><i data-lucide="siren"></i></span><span><strong>Early warnings</strong><small>Risk signals and review outcomes</small></span><i data-lucide="download"></i></a>
+        </div>
+    </article>
+    <article class="panel-card"><div class="panel-head"><div><h2>Warning status</h2><p class="panel-subtitle">Current human-review queue</p></div></div><div class="report-highlight"><span class="mini-icon red"><i data-lucide="siren"></i></span><div><strong>@Model.ActiveWarningCount</strong><span>active warnings</span></div><a class="btn btn-outline btn-sm" asp-controller="EarlyWarnings" asp-action="Index">Review queue</a></div><p class="small text-secondary mt-3">Warnings are rule-based indicators and must be reviewed by a qualified person.</p></article>
+</section>
+<section class="panel-card mt-3"><div class="panel-head"><div><h2>Recent audit activity</h2><p class="panel-subtitle">Recorded changes and system actions</p></div></div>
+    @if (Model.Activity.Count == 0) { <div class="empty-state"><i data-lucide="history"></i><p>No audit activity has been captured yet.</p></div> }
+    else { <div class="table-responsive"><table class="data-table"><thead><tr><th>Action</th><th>Record</th><th>Details</th><th>When</th></tr></thead><tbody>@foreach (var item in Model.Activity) { <tr><td>@item.Action</td><td>@item.EntityName @item.EntityId</td><td>@item.Details</td><td>@item.CreatedAt.ToLocalTime().ToString("dd MMM yyyy HH:mm")</td></tr> }</tbody></table></div> }
+</section>

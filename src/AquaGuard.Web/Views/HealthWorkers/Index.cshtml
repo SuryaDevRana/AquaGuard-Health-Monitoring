@@ -1,0 +1,13 @@
+@model AquaGuard.Web.ViewModels.HealthWorkersIndexViewModel
+@{
+    ViewData["Title"] = "Health workers";
+}
+<div class="page-header"><div><span class="eyebrow text-teal">Community network</span><h1>Health workers</h1><p>Manage field team profiles and current assignment status.</p></div><a class="btn btn-primary" asp-action="Create"><i data-lucide="user-plus"></i> Add health worker</a></div>
+<section class="stat-grid">
+    <article class="stat-card"><span class="label">Total profiles</span><div class="value">@Model.Workers.Count</div><span class="trend">In the directory</span></article>
+    <article class="stat-card"><span class="label">Active workers</span><div class="value">@Model.Workers.Count(x => x.IsActive)</div><span class="trend up">Available for assignment</span></article>
+</section>
+<section class="panel-card"><div class="table-responsive"><table class="data-table"><thead><tr><th>Worker</th><th>Designation / license</th><th>Contact</th><th>Villages</th><th>Water tests</th><th>Status</th><th></th></tr></thead><tbody>
+    @if (Model.Workers.Count == 0) { <tr><td colspan="7"><div class="empty-state"><i data-lucide="stethoscope"></i><p>No health workers are listed.</p><a asp-action="Create">Add the first worker</a></div></td></tr> }
+    else { @foreach (var worker in Model.Workers) { <tr><td><strong>@worker.FullName</strong></td><td>@(worker.Designation ?? "—")<small class="d-block text-secondary">@(worker.LicenseNumber ?? "No license listed")</small></td><td>@(worker.ContactNumber ?? "—")</td><td>@worker.AssignedVillages.Count</td><td>@worker.WaterQualityReports.Count</td><td><span class="badge @(worker.IsActive ? "badge-safe" : "badge-pending")">@(worker.IsActive ? "Active" : "Inactive")</span></td><td class="text-end"><a class="btn btn-outline btn-sm" asp-action="Edit" asp-route-id="@worker.Id">Edit</a><form asp-action="ToggleActive" asp-route-id="@worker.Id" method="post" class="d-inline"><button class="btn btn-quiet btn-sm" type="submit">@(worker.IsActive ? "Deactivate" : "Reactivate")</button></form></td></tr> } }
+    </tbody></table></div></section>

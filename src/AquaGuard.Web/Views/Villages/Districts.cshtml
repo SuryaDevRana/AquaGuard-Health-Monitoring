@@ -1,0 +1,9 @@
+@model AquaGuard.Web.ViewModels.DistrictsIndexViewModel
+@{
+    ViewData["Title"] = "Districts";
+}
+<div class="page-header"><div><a class="back-link" asp-action="Index"><i data-lucide="arrow-left"></i> Villages</a><h1>Districts</h1><p>Administrative areas represented in the community network.</p></div><a class="btn btn-primary" asp-action="CreateDistrict"><i data-lucide="plus"></i> Add district</a></div>
+<section class="panel-card"><div class="table-responsive"><table class="data-table"><thead><tr><th>District</th><th>State</th><th>Villages</th><th></th></tr></thead><tbody>
+    @if (Model.Districts.Count == 0) { <tr><td colspan="4"><div class="empty-state"><i data-lucide="map"></i><p>No districts configured.</p></div></td></tr> }
+    else { @foreach (var district in Model.Districts) { <tr><td><strong>@district.Name</strong></td><td>@district.State</td><td>@district.Villages.Count</td><td class="text-end"><a class="btn btn-outline btn-sm" asp-action="EditDistrict" asp-route-id="@district.Id">Edit</a><form asp-action="DeleteDistrict" asp-route-id="@district.Id" method="post" class="d-inline" onsubmit="return confirm('Delete this district? It must not contain any villages.')"><button class="btn btn-quiet btn-sm text-danger" type="submit">Delete</button></form></td></tr> } }
+    </tbody></table></div></section>

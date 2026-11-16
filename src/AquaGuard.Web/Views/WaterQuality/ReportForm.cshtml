@@ -1,0 +1,27 @@
+@model AquaGuard.Web.ViewModels.WaterQualityReportFormViewModel
+@{
+    var isEdit = Model.Id > 0;
+    ViewData["Title"] = isEdit ? "Review water test" : "Record water test";
+}
+<div class="page-header"><div><a class="back-link" asp-action="Index"><i data-lucide="arrow-left"></i> Water quality</a><h1>@(isEdit ? "Review test report" : "Record a water test")</h1><p>Record measured values and clearly indicate estimates and pending tests.</p></div></div>
+<div class="form-layout">
+    <form asp-action="@(isEdit ? "EditReport" : "CreateReport")" asp-route-id="@Model.Id" method="post" class="panel-card workspace-form">
+        <input asp-for="Id" type="hidden" />
+        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+        <div class="form-grid">
+            <div class="field-span-2"><label asp-for="WaterSourceId" class="form-label"></label><select asp-for="WaterSourceId" asp-items="ViewBag.Sources" class="form-select"><option value="">Choose source</option></select><span asp-validation-for="WaterSourceId" class="field-validation-error"></span></div>
+            <div><label asp-for="TestingDate" class="form-label"></label><input asp-for="TestingDate" type="date" class="form-control" /><span asp-validation-for="TestingDate" class="field-validation-error"></span></div>
+            <div><label asp-for="TestedByHealthWorkerId" class="form-label"></label><select asp-for="TestedByHealthWorkerId" asp-items="ViewBag.HealthWorkers" class="form-select"><option value="">Not recorded</option></select></div>
+            <div><label asp-for="PhLevel" class="form-label"></label><input asp-for="PhLevel" class="form-control" type="number" step="0.01" min="0" max="14" /><span asp-validation-for="PhLevel" class="field-validation-error"></span></div>
+            <div><label asp-for="TurbidityNtu" class="form-label"></label><input asp-for="TurbidityNtu" class="form-control" type="number" step="0.01" min="0" /><span asp-validation-for="TurbidityNtu" class="field-validation-error"></span></div>
+            <div><label asp-for="EColiResult" class="form-label"></label><select asp-for="EColiResult" asp-items="Html.GetEnumSelectList<AquaGuard.Domain.Enums.TestResult>()" class="form-select"></select></div>
+            <div><label asp-for="TotalColiformResult" class="form-label"></label><select asp-for="TotalColiformResult" asp-items="Html.GetEnumSelectList<AquaGuard.Domain.Enums.TestResult>()" class="form-select"></select></div>
+            <div><label asp-for="Status" class="form-label"></label><select asp-for="Status" asp-items="Html.GetEnumSelectList<AquaGuard.Domain.Enums.QualityStatus>()" class="form-select"></select></div>
+            <div class="align-self-end"><label class="form-check mb-2"><input asp-for="IsEstimated" class="form-check-input" /><span class="form-check-label">Values are estimated</span></label></div>
+            <div class="field-span-2"><label asp-for="Remarks" class="form-label"></label><textarea asp-for="Remarks" class="form-control" rows="3"></textarea></div>
+        </div>
+        <div class="form-actions"><a class="btn btn-outline" asp-action="Index">Cancel</a><button type="submit" class="btn btn-primary"><i data-lucide="check"></i> Save test report</button></div>
+    </form>
+    <aside class="panel-card form-aside"><span class="mini-icon teal"><i data-lucide="test-tube-2"></i></span><h2>Record what is known</h2><p>Leave unmeasured values blank and use “Not tested” where appropriate. Estimated observations should not be confused with confirmed laboratory results.</p></aside>
+</div>
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

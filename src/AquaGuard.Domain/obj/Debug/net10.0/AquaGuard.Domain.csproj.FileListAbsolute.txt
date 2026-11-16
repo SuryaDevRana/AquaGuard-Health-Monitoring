@@ -1,0 +1,11 @@
+/Users/suryadevrana/Documents/Codex/2026-11-16/project-name-aquaguard-smart-community-health/src/AquaGuard.Domain/bin/Debug/net10.0/AquaGuard.Domain.deps.json
+/Users/suryadevrana/Documents/Codex/2026-11-16/project-name-aquaguard-smart-community-health/src/AquaGuard.Domain/bin/Debug/net10.0/AquaGuard.Domain.dll
+/Users/suryadevrana/Documents/Codex/2026-11-16/project-name-aquaguard-smart-community-health/src/AquaGuard.Domain/bin/Debug/net10.0/AquaGuard.Domain.pdb
+/Users/suryadevrana/Documents/Codex/2026-11-16/project-name-aquaguard-smart-community-health/src/AquaGuard.Domain/obj/Debug/net10.0/AquaGuard.Domain.GeneratedMSBuildEditorConfig.editorconfig
+/Users/suryadevrana/Documents/Codex/2026-11-16/project-name-aquaguard-smart-community-health/src/AquaGuard.Domain/obj/Debug/net10.0/AquaGuard.Domain.AssemblyInfoInputs.cache
+/Users/suryadevrana/Documents/Codex/2026-11-16/project-name-aquaguard-smart-community-health/src/AquaGuard.Domain/obj/Debug/net10.0/AquaGuard.Domain.AssemblyInfo.cs
+/Users/suryadevrana/Documents/Codex/2026-11-16/project-name-aquaguard-smart-community-health/src/AquaGuard.Domain/obj/Debug/net10.0/AquaGuard.Domain.csproj.CoreCompileInputs.cache
+/Users/suryadevrana/Documents/Codex/2026-11-16/project-name-aquaguard-smart-community-health/src/AquaGuard.Domain/obj/Debug/net10.0/AquaGuard.Domain.dll
+/Users/suryadevrana/Documents/Codex/2026-11-16/project-name-aquaguard-smart-community-health/src/AquaGuard.Domain/obj/Debug/net10.0/refint/AquaGuard.Domain.dll
+/Users/suryadevrana/Documents/Codex/2026-11-16/project-name-aquaguard-smart-community-health/src/AquaGuard.Domain/obj/Debug/net10.0/AquaGuard.Domain.pdb
+/Users/suryadevrana/Documents/Codex/2026-11-16/project-name-aquaguard-smart-community-health/src/AquaGuard.Domain/obj/Debug/net10.0/ref/AquaGuard.Domain.dll

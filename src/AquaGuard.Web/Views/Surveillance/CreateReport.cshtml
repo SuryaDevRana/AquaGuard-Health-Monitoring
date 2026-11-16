@@ -1,0 +1,23 @@
+@model AquaGuard.Web.ViewModels.PatientReportFormViewModel
+@{
+    var isEdit = Model.Id > 0;
+    ViewData["Title"] = isEdit ? "Edit case report" : "Record a case";
+}
+<div class="page-header"><div><a class="back-link" asp-action="Index"><i data-lucide="arrow-left"></i> Disease surveillance</a><h1>@(isEdit ? "Edit case report" : "Record a case")</h1><p>Associate this report with a registered patient and disease.</p></div></div>
+<div class="form-layout">
+    <form asp-action="@(isEdit ? "EditReport" : "CreateReport")" asp-route-id="@Model.Id" method="post" class="panel-card workspace-form">
+        <input asp-for="Id" type="hidden" />
+        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+        <div class="form-grid">
+            <div class="field-span-2"><label asp-for="PatientId" class="form-label"></label><select asp-for="PatientId" asp-items="ViewBag.Patients" class="form-select"><option value="">Choose patient</option></select><span asp-validation-for="PatientId" class="field-validation-error"></span></div>
+            <div><label asp-for="DiseaseId" class="form-label"></label><select asp-for="DiseaseId" asp-items="ViewBag.Diseases" class="form-select"><option value="">Choose disease</option></select><span asp-validation-for="DiseaseId" class="field-validation-error"></span></div>
+            <div><label asp-for="ReportedOn" class="form-label"></label><input asp-for="ReportedOn" type="datetime-local" class="form-control" /><span asp-validation-for="ReportedOn" class="field-validation-error"></span></div>
+            <div><label asp-for="Severity" class="form-label"></label><select asp-for="Severity" class="form-select"><option value="">Not assessed</option><option>Routine follow-up</option><option>Requires follow-up</option><option>Urgent review</option></select></div>
+            <div class="field-span-2"><label asp-for="Symptoms" class="form-label"></label><textarea asp-for="Symptoms" class="form-control" rows="3"></textarea><span asp-validation-for="Symptoms" class="field-validation-error"></span></div>
+            <div class="field-span-2"><label asp-for="Notes" class="form-label"></label><textarea asp-for="Notes" class="form-control" rows="3"></textarea></div>
+        </div>
+        <div class="form-actions"><a class="btn btn-outline" asp-action="Index">Cancel</a><button type="submit" class="btn btn-primary"><i data-lucide="check"></i> Save case report</button></div>
+    </form>
+    <aside class="panel-card form-aside"><span class="mini-icon amber"><i data-lucide="info"></i></span><h2>Use careful language</h2><p>Record observed symptoms and follow-up needs. Do not use this system to diagnose an individual or declare an outbreak.</p></aside>
+</div>
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

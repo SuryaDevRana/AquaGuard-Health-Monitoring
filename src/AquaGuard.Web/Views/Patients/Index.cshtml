@@ -1,0 +1,63 @@
+@model AquaGuard.Web.ViewModels.PatientIndexViewModel
+@{
+    ViewData["Title"] = "Patient records";
+    var resultPage = Model.Results;
+}
+<div class="page-header">
+    <div><span class="eyebrow text-teal">Community workspace</span><h1>Patient records</h1><p>Search and manage patient profiles and their reported health history.</p></div>
+    <a class="btn btn-primary" asp-action="Create"><i data-lucide="user-plus"></i> Add patient</a>
+</div>
+<div class="demo-banner"><i data-lucide="flask-conical"></i><span>Demonstration records only. Do not enter real patient information in this demo.</span></div>
+<section class="stat-grid">
+    <article class="stat-card"><span class="label">Matching records</span><div class="value">@resultPage.TotalCount</div><span class="trend up">Filtered results</span></article>
+    <article class="stat-card"><span class="label">Page</span><div class="value">@resultPage.Page <small class="fs-6 text-secondary">/ @Math.Max(1, resultPage.TotalPages)</small></div><span class="trend">10 records per page</span></article>
+</section>
+<section class="panel-card">
+    <form method="get" class="table-toolbar">
+        <div class="filter-row">
+            <input class="filter-control" type="search" name="search" value="@Model.Search" placeholder="Name, patient code or contact" aria-label="Search patients" />
+            <select class="filter-control" name="villageId" aria-label="Filter by village">
+                <option value="">All villages</option>
+                @foreach (var village in Model.Villages) { <option value="@village.Id" selected="@(Model.VillageId == village.Id)">@village.Name</option> }
+            </select>
+            <select class="filter-control" name="diseaseId" aria-label="Filter by disease">
+                <option value="">All diseases</option>
+                @foreach (var disease in Model.Diseases) { <option value="@disease.Id" selected="@(Model.DiseaseId == disease.Id)">@disease.Name</option> }
+            </select>
+            <button class="btn btn-outline" type="submit"><i data-lucide="search"></i> Search</button>
+            <a class="btn btn-quiet" asp-action="Index">Clear</a>
+        </div>
+    </form>
+    <div class="table-responsive">
+        <table class="data-table">
+            <thead><tr><th>Patient</th><th>Age / gender</th><th>Village</th><th>Reported disease</th><th>Registered</th><th></th></tr></thead>
+            <tbody>
+            @if (resultPage.Items.Count == 0)
+            {
+                <tr><td colspan="6"><div class="empty-state"><i data-lucide="users-round"></i><p>No patient records match these filters.</p><a asp-action="Create">Add the first patient</a></div></td></tr>
+            }
+            else
+            {
+                @foreach (var patient in resultPage.Items)
+                {
+                    <tr>
+                        <td><a class="table-primary-link" asp-action="Details" asp-route-id="@patient.Id">@patient.FullName</a><small class="d-block text-secondary">@patient.PatientCode</small></td>
+                        <td>@patient.Age · @patient.Gender</td><td>@patient.Village</td><td>@(patient.Disease ?? "Not specified")</td><td>@patient.RegisteredOn.ToLocalTime().ToString("dd MMM yyyy")</td>
+                        <td><a class="icon-btn" asp-action="Details" asp-route-id="@patient.Id" aria-label="View @patient.FullName"><i data-lucide="arrow-up-right"></i></a></td>
+                    </tr>
+                }
+            }
+            </tbody>
+        </table>
+    </div>
+    @if (resultPage.TotalPages > 1)
+    {
+        <nav class="pagination-row" aria-label="Patient records pages">
+            <span class="small text-secondary">Showing @((resultPage.Page - 1) * resultPage.PageSize + 1)–@Math.Min(resultPage.Page * resultPage.PageSize, resultPage.TotalCount) of @resultPage.TotalCount</span>
+            <div class="d-flex gap-2">
+                @if (resultPage.Page > 1) { <a class="btn btn-outline btn-sm" asp-action="Index" asp-route-search="@Model.Search" asp-route-villageId="@Model.VillageId" asp-route-diseaseId="@Model.DiseaseId" asp-route-page="@(resultPage.Page - 1)">Previous</a> }
+                @if (resultPage.Page < resultPage.TotalPages) { <a class="btn btn-outline btn-sm" asp-action="Index" asp-route-search="@Model.Search" asp-route-villageId="@Model.VillageId" asp-route-diseaseId="@Model.DiseaseId" asp-route-page="@(resultPage.Page + 1)">Next</a> }
+            </div>
+        </nav>
+    }
+</section>

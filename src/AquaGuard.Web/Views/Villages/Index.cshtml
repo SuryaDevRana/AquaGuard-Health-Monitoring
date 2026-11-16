@@ -1,0 +1,17 @@
+@model AquaGuard.Web.ViewModels.VillageIndexViewModel
+@{
+    ViewData["Title"] = "Villages";
+}
+<div class="page-header">
+    <div><span class="eyebrow text-teal">Community network</span><h1>Villages</h1><p>Manage monitored communities, districts, and assigned health workers.</p></div>
+    <div class="d-flex gap-2"><a class="btn btn-outline" asp-action="Districts"><i data-lucide="map"></i> Districts</a><a class="btn btn-outline" asp-action="Facilities"><i data-lucide="building-2"></i> Facilities</a><a class="btn btn-primary" asp-action="Create"><i data-lucide="plus"></i> Add village</a></div>
+</div>
+<section class="stat-grid">
+    <article class="stat-card"><span class="label">Communities</span><div class="value">@Model.Villages.Count</div><span class="trend">Configured villages</span></article>
+    <article class="stat-card"><span class="label">Districts</span><div class="value">@Model.DistrictCount</div><span class="trend">Across the network</span></article>
+    <article class="stat-card"><span class="label">Health facilities</span><div class="value">@Model.FacilityCount</div><span class="trend">Community service points</span></article>
+</section>
+<section class="panel-card"><div class="table-responsive"><table class="data-table"><thead><tr><th>Village</th><th>District / state</th><th>Population</th><th>Households</th><th>Assigned worker</th><th>Coordinates</th><th></th></tr></thead><tbody>
+    @if (Model.Villages.Count == 0) { <tr><td colspan="7"><div class="empty-state"><i data-lucide="map-pin"></i><p>No villages are configured.</p><a asp-action="Create">Add the first village</a></div></td></tr> }
+    else { @foreach (var village in Model.Villages) { <tr><td><strong>@village.Name</strong><small class="d-block text-secondary">@village.AvailableHealthFacilities</small></td><td>@village.District.Name<small class="d-block text-secondary">@village.District.State</small></td><td>@village.Population.ToString("N0")</td><td>@village.HouseholdCount.ToString("N0")</td><td>@(village.AssignedHealthWorker?.FullName ?? "Unassigned")</td><td>@(village.Latitude?.ToString("0.0000") ?? "—"), @(village.Longitude?.ToString("0.0000") ?? "—")</td><td class="text-end"><a class="btn btn-outline btn-sm" asp-action="Edit" asp-route-id="@village.Id">Edit</a><form asp-action="Delete" asp-route-id="@village.Id" method="post" class="d-inline" onsubmit="return confirm('Delete this village? Linked records prevent deletion.')"><button class="btn btn-quiet btn-sm text-danger" type="submit">Delete</button></form></td></tr> } }
+    </tbody></table></div></section>

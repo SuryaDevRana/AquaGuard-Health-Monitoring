@@ -1,0 +1,9 @@
+@model AquaGuard.Web.ViewModels.FacilitiesIndexViewModel
+@{
+    ViewData["Title"] = "Health facilities";
+}
+<div class="page-header"><div><a class="back-link" asp-action="Index"><i data-lucide="arrow-left"></i> Villages</a><h1>Health facilities</h1><p>Manage facilities associated with monitored communities.</p></div><a class="btn btn-primary" asp-action="CreateFacility"><i data-lucide="plus"></i> Add facility</a></div>
+<section class="panel-card"><div class="table-responsive"><table class="data-table"><thead><tr><th>Facility</th><th>Village</th><th>Type</th><th>Contact</th><th>Status</th><th></th></tr></thead><tbody>
+    @if (Model.Facilities.Count == 0) { <tr><td colspan="6"><div class="empty-state"><i data-lucide="building-2"></i><p>No facilities are recorded.</p></div></td></tr> }
+    else { @foreach (var facility in Model.Facilities) { <tr><td><strong>@facility.Name</strong></td><td>@facility.Village.Name</td><td>@facility.FacilityType</td><td>@(facility.ContactNumber ?? "—")</td><td><span class="badge @(facility.IsOperational ? "badge-safe" : "badge-pending")">@(facility.IsOperational ? "Operational" : "Inactive")</span></td><td class="text-end"><a class="btn btn-outline btn-sm" asp-action="EditFacility" asp-route-id="@facility.Id">Edit</a><form asp-action="DeleteFacility" asp-route-id="@facility.Id" method="post" class="d-inline" onsubmit="return confirm('Remove this facility?')"><button class="btn btn-quiet btn-sm text-danger" type="submit">Delete</button></form></td></tr> } }
+    </tbody></table></div></section>

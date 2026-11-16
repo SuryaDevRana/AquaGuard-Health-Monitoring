@@ -1,0 +1,11 @@
+@model IReadOnlyList<AquaGuard.Web.Controllers.SurveillanceController.DiseaseRow>
+@{
+    ViewData["Title"] = "Disease catalogue";
+}
+<div class="page-header"><div><a class="back-link" asp-action="Index"><i data-lucide="arrow-left"></i> Disease surveillance</a><h1>Disease catalogue</h1><p>Maintain the conditions available when recording a case.</p></div><a class="btn btn-primary" asp-action="CreateDisease"><i data-lucide="plus"></i> Add disease</a></div>
+<section class="panel-card">
+    <div class="table-responsive"><table class="data-table"><thead><tr><th>Disease</th><th>Category</th><th>Case reports</th><th>Warnings</th><th></th></tr></thead><tbody>
+    @if (Model.Count == 0) { <tr><td colspan="5"><div class="empty-state"><i data-lucide="book-open"></i><p>No diseases are configured.</p></div></td></tr> }
+    else { @foreach (var disease in Model) { <tr><td><strong>@disease.Name</strong><small class="d-block text-secondary">@disease.Description</small></td><td>@(disease.IsWaterBorne ? "Water-borne" : "Other")</td><td>@disease.CaseCount</td><td>@disease.WarningCount</td><td class="text-end"><a class="btn btn-outline btn-sm" asp-action="EditDisease" asp-route-id="@disease.Id">Edit</a><form asp-action="DeleteDisease" asp-route-id="@disease.Id" method="post" class="d-inline" onsubmit="return confirm('Remove this disease from the catalogue?')"><button class="btn btn-quiet btn-sm text-danger" type="submit">Delete</button></form></td></tr> } }
+    </tbody></table></div>
+</section>

@@ -1,0 +1,72 @@
+@model AquaGuard.Web.ViewModels.ManualWarningFormViewModel
+@using AquaGuard.Domain.Enums
+@{
+    ViewData["Title"] = "Send a warning";
+}
+<div class="page-header">
+    <div>
+        <a class="back-link" asp-action="Index"><i data-lucide="arrow-left"></i> Early warnings</a>
+        <h1>Send a community warning</h1>
+        <p>Record a human-reviewed concern and share it with the workspace.</p>
+    </div>
+</div>
+<div class="warning-safety-banner">
+    <span class="warning-safety-icon"><i data-lucide="inbox"></i></span>
+    <div>
+        <strong>Sent to every active user’s inbox</strong>
+        <span>The warning message will be available in Notifications for all active app users. It is a review signal, not a diagnosis or confirmed outbreak.</span>
+    </div>
+</div>
+<div class="form-layout">
+    <form asp-action="Create" method="post" class="panel-card workspace-form" onsubmit="return confirm('Send this warning to all active users’ inboxes?')">
+        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+        <div class="form-grid">
+            <div>
+                <label asp-for="VillageId" class="form-label"></label>
+                <select asp-for="VillageId" asp-items="ViewBag.Villages" class="form-select"><option value="">Choose village</option></select>
+                <span asp-validation-for="VillageId" class="field-validation-error"></span>
+            </div>
+            <div>
+                <label asp-for="RiskLevel" class="form-label"></label>
+                <select asp-for="RiskLevel" asp-items="Html.GetEnumSelectList<RiskLevel>()" class="form-select"><option value="">Choose risk level</option></select>
+                <span asp-validation-for="RiskLevel" class="field-validation-error"></span>
+            </div>
+            <div class="field-span-2">
+                <label asp-for="RelatedDiseaseId" class="form-label"></label>
+                <select asp-for="RelatedDiseaseId" asp-items="ViewBag.Diseases" class="form-select"><option value="">Community-wide / no specific disease</option></select>
+                <span asp-validation-for="RelatedDiseaseId" class="field-validation-error"></span>
+            </div>
+            <div class="field-span-2">
+                <label asp-for="TriggerReason" class="form-label"></label>
+                <textarea asp-for="TriggerReason" class="form-control" rows="4" maxlength="1000" placeholder="Describe the concern and what community members should know."></textarea>
+                <div class="form-text">This exact message appears in recipients’ inboxes.</div>
+                <span asp-validation-for="TriggerReason" class="field-validation-error"></span>
+            </div>
+            <div>
+                <label asp-for="ReportedCaseCount" class="form-label"></label>
+                <input asp-for="ReportedCaseCount" class="form-control" type="number" min="0" max="100000" />
+                <span asp-validation-for="ReportedCaseCount" class="field-validation-error"></span>
+            </div>
+            <div class="field-span-2">
+                <label asp-for="RecommendedAction" class="form-label"></label>
+                <textarea asp-for="RecommendedAction" class="form-control" rows="3" maxlength="1500"></textarea>
+                <span asp-validation-for="RecommendedAction" class="field-validation-error"></span>
+            </div>
+            <div class="field-span-2">
+                <label asp-for="EvidenceSummary" class="form-label"></label>
+                <textarea asp-for="EvidenceSummary" class="form-control" rows="3" maxlength="1500" placeholder="Optional context, source, or evidence note"></textarea>
+                <span asp-validation-for="EvidenceSummary" class="field-validation-error"></span>
+            </div>
+        </div>
+        <div class="form-actions">
+            <a class="btn btn-outline" asp-action="Index">Cancel</a>
+            <button type="submit" class="btn btn-primary"><i data-lucide="send"></i> Send warning</button>
+        </div>
+    </form>
+    <aside class="panel-card form-aside">
+        <span class="mini-icon amber"><i data-lucide="shield-alert"></i></span>
+        <h2>Share responsibly</h2>
+        <p>Use clear, factual language. The warning is marked open for review and linked from the inbox message so recipients can review its evidence and recommended follow-up.</p>
+    </aside>
+</div>
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }
